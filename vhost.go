@@ -11,7 +11,7 @@ type Vhost struct {
 	Tracing bool
 }
 
-func GetVhosts(ctx context.Context, c *conn, outC chan<- []Vhost, errC chan<- error) {
+func (c *conn) GetVhosts(ctx context.Context, outC chan<- []Vhost, errC chan<- error) {
 	err := c.get(ctx, "vhosts", func(c context.Context, resp *http.Response) error {
 		var vhost []Vhost
 		err := json.NewDecoder(resp.Body).Decode(&vhost)
@@ -26,7 +26,7 @@ func GetVhosts(ctx context.Context, c *conn, outC chan<- []Vhost, errC chan<- er
 	}
 }
 
-func GetVhost(ctx context.Context, c *conn, vhostName string, outC chan<- Vhost, errC chan<- error) {
+func (c *conn) GetVhost(ctx context.Context, vhostName string, outC chan<- Vhost, errC chan<- error) {
 	if vhostName == "/" {
 		vhostName = "%2f"
 	}

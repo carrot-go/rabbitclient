@@ -6,12 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetVhosts(t *testing.T) {
+func TestConn_GetVhosts(t *testing.T) {
 	c := newConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan []Vhost, 1)
-	GetVhosts(ctx, c, outC, errC)
+	c.GetVhosts(ctx, outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
@@ -20,12 +20,12 @@ func TestGetVhosts(t *testing.T) {
 	}
 }
 
-func TestGetVhost(t *testing.T) {
+func TestConn_GetVhost(t *testing.T) {
 	c := newConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan Vhost, 1)
-	GetVhost(ctx, c, "/", outC, errC)
+	c.GetVhost(ctx, "/", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
