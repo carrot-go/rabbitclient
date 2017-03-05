@@ -16,7 +16,7 @@ type Exchange struct {
 	Vhost      string                 `json:"vhost"`
 }
 
-func (c *conn) GetExchanges(ctx context.Context, outC chan<- []Exchange, errC chan<- error) {
+func (c *Conn) GetExchanges(ctx context.Context, outC chan<- []Exchange, errC chan<- error) {
 	err := c.get(ctx, "exchanges", func(c context.Context, resp *http.Response) error {
 		var exchanges []Exchange
 		err := json.NewDecoder(resp.Body).Decode(&exchanges)
@@ -31,7 +31,7 @@ func (c *conn) GetExchanges(ctx context.Context, outC chan<- []Exchange, errC ch
 	}
 }
 
-func (c *conn) GetVhostExchanges(ctx context.Context, vhost string, outC chan<- []Exchange, errC chan<- error) {
+func (c *Conn) GetVhostExchanges(ctx context.Context, vhost string, outC chan<- []Exchange, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}
@@ -49,7 +49,7 @@ func (c *conn) GetVhostExchanges(ctx context.Context, vhost string, outC chan<- 
 	}
 }
 
-func (c *conn) GetExchange(ctx context.Context, vhost, name string, outC chan<- Exchange, errC chan<- error) {
+func (c *Conn) GetExchange(ctx context.Context, vhost, name string, outC chan<- Exchange, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}

@@ -61,7 +61,7 @@ type QueueStatus struct {
 	AvgAckEgressRate  float64       `json:"avg_ack_egress_rate"`
 }
 
-func (c *conn) GetQueues(ctx context.Context, outC chan<- []Queue, errC chan<- error) {
+func (c *Conn) GetQueues(ctx context.Context, outC chan<- []Queue, errC chan<- error) {
 	err := c.get(ctx, "queues", func(c context.Context, resp *http.Response) error {
 		var queue []Queue
 		err := json.NewDecoder(resp.Body).Decode(&queue)
@@ -76,7 +76,7 @@ func (c *conn) GetQueues(ctx context.Context, outC chan<- []Queue, errC chan<- e
 	}
 }
 
-func (c *conn) GetVhostQueue(ctx context.Context, vhost string, outC chan<- []Queue, errC chan<- error) {
+func (c *Conn) GetVhostQueue(ctx context.Context, vhost string, outC chan<- []Queue, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}
@@ -94,7 +94,7 @@ func (c *conn) GetVhostQueue(ctx context.Context, vhost string, outC chan<- []Qu
 	}
 }
 
-func (c *conn) GetQueue(ctx context.Context, vhost, name string, outC chan<- Queue, errC chan<- error) {
+func (c *Conn) GetQueue(ctx context.Context, vhost, name string, outC chan<- Queue, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}

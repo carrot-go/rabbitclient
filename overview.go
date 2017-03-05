@@ -84,7 +84,7 @@ type Context struct {
 	Port        string `json:"port"`
 }
 
-func (c *conn) GetOverview(ctx context.Context, outC chan<- Overview, errC chan<- error) {
+func (c *Conn) GetOverview(ctx context.Context, outC chan<- Overview, errC chan<- error) {
 	err := c.get(ctx, "overview/", func(c context.Context, resp *http.Response) error {
 		var overview Overview
 		err := json.NewDecoder(resp.Body).Decode(&overview)
