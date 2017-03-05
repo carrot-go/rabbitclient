@@ -1,5 +1,11 @@
 package rabbitclient
 
+import (
+	"context"
+	"encoding/json"
+	"net/http"
+)
+
 type Overview struct {
 	ManagementVersion      string          `json:"management_version"`
 	RatesMode              string          `json:"rates_mode"`
@@ -64,7 +70,6 @@ type ExchangeType struct {
 	Enabled     bool   `json:"enabled"`
 }
 
-
 type Listener struct {
 	Node      string `json:"node"`
 	Protocol  string `json:"protocol"`
@@ -77,4 +82,19 @@ type Context struct {
 	Description string `json:"description"`
 	Path        string `json:"path"`
 	Port        string `json:"port"`
+}
+
+func (c *conn) GetOverview(ctx context.Context, outC chan<- Overview, errC chan<- error) {
+	err := c.get(ctx, "overview/", func(c context.Context, resp *http.Response) error {
+		var overview Overview
+		err := json.NewDecoder(resp.Body).Decode(&overview)
+		if err != nil {
+			return err
+		}
+		outC <- overview
+		return nil
+	})
+	if err != nil {
+		errC <- err
+	}
 }
