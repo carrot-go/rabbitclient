@@ -41,8 +41,8 @@ func (c *conn) newRequest(method, endpoint string) (*http.Request, error) {
 	}
 
 	req.SetBasicAuth(c.user, c.password)
-	//req.Header.Set("Accept", "application/json");
-	//req.Header.Set("User-Agent", "lysu/rabbitclient")
+	req.Header.Set("Accept", "application/json");
+	req.Header.Set("User-Agent", "lysu/rabbitclient")
 
 	return req, nil
 }
