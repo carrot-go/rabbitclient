@@ -39,7 +39,7 @@ func TestConn_GetQueue(t *testing.T) {
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Queue)
-	go c.GetQueue(ctx, "/", "robitest", outC, errC)
+	go c.GetQueue(ctx, "/", "testqueue", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
