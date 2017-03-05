@@ -7,7 +7,7 @@ import (
 )
 
 func TestConn_GetNodes(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Node)
@@ -21,7 +21,7 @@ func TestConn_GetNodes(t *testing.T) {
 }
 
 func TestConn_GetNode(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Node)

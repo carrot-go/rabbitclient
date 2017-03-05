@@ -7,7 +7,7 @@ import (
 )
 
 func TestConn_GetExchanges(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Exchange)
@@ -21,7 +21,7 @@ func TestConn_GetExchanges(t *testing.T) {
 }
 
 func TestConn_GetVhostExchanges(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Exchange)
@@ -35,7 +35,7 @@ func TestConn_GetVhostExchanges(t *testing.T) {
 }
 
 func TestConn_GetExchange(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Exchange)

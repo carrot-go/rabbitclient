@@ -7,7 +7,7 @@ import (
 )
 
 func TestConn_GetVhosts(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan []Vhost, 1)
@@ -21,7 +21,7 @@ func TestConn_GetVhosts(t *testing.T) {
 }
 
 func TestConn_GetVhost(t *testing.T) {
-	c := newConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest", "0.0.0.0:15672")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan Vhost, 1)
