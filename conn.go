@@ -14,7 +14,7 @@ type Conn struct {
 	host     string
 }
 
-func newConn(user, pwd, host string) *Conn {
+func NewConn(user, pwd, host string) *Conn {
 	c := &Conn{user: user, password: pwd, host: host}
 	c.hc = &http.Client{}
 	return c
