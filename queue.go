@@ -20,7 +20,7 @@ type Queue struct {
 	Policy                        string                 `json:"policy"`
 	ExclusiveConsumerTag          string                 `json:"exclusive_consumer_tag"`
 	Consumers                     int                    `json:"consumers"`
-	RecoverableSlaves             string                 `json:"recoverable_slaves"`
+	RecoverableSlaves             []string                 `json:"recoverable_slaves"`
 	State                         string                 `json:"state"`
 	MessagesRAM                   int64                  `json:"messages_ram"`
 	MessagesReadyRAM              int64                  `json:"messages_ready_ram"`
