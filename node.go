@@ -110,8 +110,8 @@ func (c *Conn) GetNodes(ctx context.Context, host string, outC chan<- []Node, er
 		if err != nil {
 			return err
 		}
-		for _, node := range nodes {
-			node.Host = host
+		for i := 0; i < len(nodes); i++ {
+			nodes[i].Host = host
 		}
 		outC <- nodes
 		return nil

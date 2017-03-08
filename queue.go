@@ -69,8 +69,8 @@ func (c *Conn) GetQueues(ctx context.Context, host string, outC chan<- []Queue, 
 		if err != nil {
 			return err
 		}
-		for _, queue := range queues {
-			queue.Host = host
+		for i := 0; i < len(queues); i++ {
+			queues[i].Host = host
 		}
 		outC <- queues
 		return nil
@@ -90,8 +90,8 @@ func (c *Conn) GetVhostQueue(ctx context.Context, host, vhost string, outC chan<
 		if err != nil {
 			return err
 		}
-		for _, queue := range queues {
-			queue.Host = host
+		for i := 0; i < len(queues); i++ {
+			queues[i].Host = host
 		}
 		outC <- queues
 		return nil

@@ -24,8 +24,8 @@ func (c *Conn) GetExchanges(ctx context.Context, host string, outC chan<- []Exch
 		if err != nil {
 			return err
 		}
-		for _, exchange := range exchanges {
-			exchange.Host = host
+		for i := 0; i < len(exchanges); i++ {
+			exchanges[i].Host = host
 		}
 		outC <- exchanges
 		return nil
@@ -45,8 +45,8 @@ func (c *Conn) GetVhostExchanges(ctx context.Context, host, vhost string, outC c
 		if err != nil {
 			return err
 		}
-		for _, exchange := range exchanges {
-			exchange.Host = host
+		for i := 0; i < len(exchanges); i++ {
+			exchanges[i].Host = host
 		}
 		outC <- exchanges
 		return nil
