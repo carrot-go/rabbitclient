@@ -22,6 +22,7 @@ type Overview struct {
 	ExchangeTypes          []*ExchangeType `json:"exchange_types"`
 	Listeners              []*Listener     `json:"listeners"`
 	Contexts               []*Context      `json:"contexts"`
+	Host                   string          `json:"host"`
 }
 
 type MessageStats struct {
@@ -91,6 +92,7 @@ func (c *Conn) GetOverview(ctx context.Context, host string, outC chan<- Overvie
 		if err != nil {
 			return err
 		}
+		overview.Host = host
 		outC <- overview
 		return nil
 	})

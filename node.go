@@ -88,6 +88,7 @@ type Node struct {
 	IoFileHandleOpenAttemptCountDetails   StatsDetails `json:"io_file_handle_open_attempt_count_details"`
 	IoFileHandleOpenAttemptAvgTime        float64 `json:"io_file_handle_open_attempt_avg_time"`
 	IoFileHandleOpenAttemptAvgTimeDetails StatsDetails `json:"io_file_handle_open_attempt_avg_time_details"`
+	Host                                  string  `json:"host"`
 }
 
 type Application struct {
@@ -109,6 +110,9 @@ func (c *Conn) GetNodes(ctx context.Context, host string, outC chan<- []Node, er
 		if err != nil {
 			return err
 		}
+		for _, node := range nodes {
+			node.Host = host
+		}
 		outC <- nodes
 		return nil
 	})
@@ -124,6 +128,7 @@ func (c *Conn) GetNode(ctx context.Context, host, node string, outC chan<- Node,
 		if err != nil {
 			return err
 		}
+		node.Host = host
 		outC <- node
 		return nil
 	})

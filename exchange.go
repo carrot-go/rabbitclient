@@ -2,8 +2,8 @@ package rabbitclient
 
 import (
 	"context"
-	"net/http"
 	"encoding/json"
+	"net/http"
 )
 
 type Exchange struct {
@@ -14,6 +14,7 @@ type Exchange struct {
 	Name       string                 `json:"name"`
 	Type       string                 `json:"type"`
 	Vhost      string                 `json:"vhost"`
+	Host       string                 `json:"host"`
 }
 
 func (c *Conn) GetExchanges(ctx context.Context, host string, outC chan<- []Exchange, errC chan<- error) {
@@ -22,6 +23,9 @@ func (c *Conn) GetExchanges(ctx context.Context, host string, outC chan<- []Exch
 		err := json.NewDecoder(resp.Body).Decode(&exchanges)
 		if err != nil {
 			return err
+		}
+		for _, exchange := range exchanges {
+			exchange.Host = host
 		}
 		outC <- exchanges
 		return nil
@@ -41,6 +45,9 @@ func (c *Conn) GetVhostExchanges(ctx context.Context, host, vhost string, outC c
 		if err != nil {
 			return err
 		}
+		for _, exchange := range exchanges {
+			exchange.Host = host
+		}
 		outC <- exchanges
 		return nil
 	})
@@ -59,6 +66,7 @@ func (c *Conn) GetExchange(ctx context.Context, host, vhost, name string, outC c
 		if err != nil {
 			return err
 		}
+		exchange.Host = host
 		outC <- exchange
 		return nil
 	})

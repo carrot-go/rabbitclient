@@ -20,7 +20,7 @@ type Queue struct {
 	Policy                        string                 `json:"policy"`
 	ExclusiveConsumerTag          string                 `json:"exclusive_consumer_tag"`
 	Consumers                     int                    `json:"consumers"`
-	RecoverableSlaves             []string                 `json:"recoverable_slaves"`
+	RecoverableSlaves             []string               `json:"recoverable_slaves"`
 	State                         string                 `json:"state"`
 	MessagesRAM                   int64                  `json:"messages_ram"`
 	MessagesReadyRAM              int64                  `json:"messages_ready_ram"`
@@ -44,6 +44,7 @@ type Queue struct {
 	Internal                      bool                   `json:"internal"`
 	Arguments                     map[string]interface{} `json:"arguments"`
 	Node                          string                 `json:"node"`
+	Host                          string                 `json:"host"`
 }
 
 type QueueStatus struct {
@@ -63,12 +64,15 @@ type QueueStatus struct {
 
 func (c *Conn) GetQueues(ctx context.Context, host string, outC chan<- []Queue, errC chan<- error) {
 	err := c.get(ctx, host, "queues", func(c context.Context, resp *http.Response) error {
-		var queue []Queue
-		err := json.NewDecoder(resp.Body).Decode(&queue)
+		var queues []Queue
+		err := json.NewDecoder(resp.Body).Decode(&queues)
 		if err != nil {
 			return err
 		}
-		outC <- queue
+		for _, queue := range queues {
+			queue.Host = host
+		}
+		outC <- queues
 		return nil
 	})
 	if err != nil {
@@ -81,12 +85,15 @@ func (c *Conn) GetVhostQueue(ctx context.Context, host, vhost string, outC chan<
 		vhost = "%2f"
 	}
 	err := c.get(ctx, host, "queues/"+vhost, func(c context.Context, resp *http.Response) error {
-		var queue []Queue
-		err := json.NewDecoder(resp.Body).Decode(&queue)
+		var queues []Queue
+		err := json.NewDecoder(resp.Body).Decode(&queues)
 		if err != nil {
 			return err
 		}
-		outC <- queue
+		for _, queue := range queues {
+			queue.Host = host
+		}
+		outC <- queues
 		return nil
 	})
 	if err != nil {
@@ -104,6 +111,7 @@ func (c *Conn) GetQueue(ctx context.Context, host, vhost, name string, outC chan
 		if err != nil {
 			return err
 		}
+		queue.Host = host
 		outC <- queue
 		return nil
 	})
