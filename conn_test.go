@@ -9,9 +9,9 @@ import (
 )
 
 func TestConn_Get(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
-	err := c.get(ctx, "overview", func(c context.Context, resp *http.Response) error {
+	err := c.get(ctx, "0.0.0.0:15672", "overview", func(c context.Context, resp *http.Response) error {
 		decoder := json.NewDecoder(resp.Body)
 		var overview Overview
 		err := decoder.Decode(&overview)

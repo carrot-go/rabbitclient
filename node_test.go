@@ -7,11 +7,11 @@ import (
 )
 
 func TestConn_GetNodes(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Node)
-	go c.GetNodes(ctx, outC, errC)
+	go c.GetNodes(ctx, "0.0.0.0:15672", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
@@ -21,11 +21,11 @@ func TestConn_GetNodes(t *testing.T) {
 }
 
 func TestConn_GetNode(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Node)
-	go c.GetNode(ctx, "rabbit@localhost", outC, errC)
+	go c.GetNode(ctx, "0.0.0.0:15672", "rabbit@localhost", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)

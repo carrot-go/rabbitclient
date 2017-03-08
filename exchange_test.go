@@ -7,11 +7,11 @@ import (
 )
 
 func TestConn_GetExchanges(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Exchange)
-	go c.GetExchanges(ctx, outC, errC)
+	go c.GetExchanges(ctx, "0.0.0.0:15672",outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
@@ -21,11 +21,11 @@ func TestConn_GetExchanges(t *testing.T) {
 }
 
 func TestConn_GetVhostExchanges(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan []Exchange)
-	go c.GetVhostExchanges(ctx, "/", outC, errC)
+	go c.GetVhostExchanges(ctx, "0.0.0.0:15672", "/", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
@@ -35,11 +35,11 @@ func TestConn_GetVhostExchanges(t *testing.T) {
 }
 
 func TestConn_GetExchange(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Exchange)
-	go c.GetExchange(ctx,"/", "amq.rabbitmq.trace", outC, errC)
+	go c.GetExchange(ctx, "0.0.0.0:15672", "/", "amq.rabbitmq.trace", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)

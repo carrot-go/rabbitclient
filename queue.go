@@ -61,8 +61,8 @@ type QueueStatus struct {
 	AvgAckEgressRate  float64       `json:"avg_ack_egress_rate"`
 }
 
-func (c *Conn) GetQueues(ctx context.Context, outC chan<- []Queue, errC chan<- error) {
-	err := c.get(ctx, "queues", func(c context.Context, resp *http.Response) error {
+func (c *Conn) GetQueues(ctx context.Context, host string, outC chan<- []Queue, errC chan<- error) {
+	err := c.get(ctx, host, "queues", func(c context.Context, resp *http.Response) error {
 		var queue []Queue
 		err := json.NewDecoder(resp.Body).Decode(&queue)
 		if err != nil {
@@ -76,11 +76,11 @@ func (c *Conn) GetQueues(ctx context.Context, outC chan<- []Queue, errC chan<- e
 	}
 }
 
-func (c *Conn) GetVhostQueue(ctx context.Context, vhost string, outC chan<- []Queue, errC chan<- error) {
+func (c *Conn) GetVhostQueue(ctx context.Context, host, vhost string, outC chan<- []Queue, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}
-	err := c.get(ctx, "queues/"+vhost, func(c context.Context, resp *http.Response) error {
+	err := c.get(ctx, host, "queues/"+vhost, func(c context.Context, resp *http.Response) error {
 		var queue []Queue
 		err := json.NewDecoder(resp.Body).Decode(&queue)
 		if err != nil {
@@ -94,11 +94,11 @@ func (c *Conn) GetVhostQueue(ctx context.Context, vhost string, outC chan<- []Qu
 	}
 }
 
-func (c *Conn) GetQueue(ctx context.Context, vhost, name string, outC chan<- Queue, errC chan<- error) {
+func (c *Conn) GetQueue(ctx context.Context, host, vhost, name string, outC chan<- Queue, errC chan<- error) {
 	if vhost == "/" {
 		vhost = "%2f"
 	}
-	err := c.get(ctx, "queues/"+vhost+"/"+name, func(c context.Context, resp *http.Response) error {
+	err := c.get(ctx, host, "queues/"+vhost+"/"+name, func(c context.Context, resp *http.Response) error {
 		var queue Queue
 		err := json.NewDecoder(resp.Body).Decode(&queue)
 		if err != nil {

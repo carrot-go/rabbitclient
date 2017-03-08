@@ -7,11 +7,11 @@ import (
 )
 
 func TestConn_GetVhosts(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan []Vhost, 1)
-	c.GetVhosts(ctx, outC, errC)
+	c.GetVhosts(ctx, "0.0.0.0:15672", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)
@@ -21,11 +21,11 @@ func TestConn_GetVhosts(t *testing.T) {
 }
 
 func TestConn_GetVhost(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error, 1)
 	outC := make(chan Vhost, 1)
-	c.GetVhost(ctx, "/", outC, errC)
+	c.GetVhost(ctx, "0.0.0.0:15672", "/", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)

@@ -7,11 +7,11 @@ import (
 )
 
 func TestConn_GetOverview(t *testing.T) {
-	c := NewConn("guest", "guest", "0.0.0.0:15672")
+	c := NewConn("guest", "guest")
 	ctx := context.TODO()
 	errC := make(chan error)
 	outC := make(chan Overview)
-	go c.GetOverview(ctx, outC, errC)
+	go c.GetOverview(ctx, "0.0.0.0:15672", outC, errC)
 	select {
 	case err := <-errC:
 		assert.NoError(t, err)

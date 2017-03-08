@@ -102,8 +102,8 @@ type AuthMechanism struct {
 	Enable      bool `json:"enable"`
 }
 
-func (c *Conn) GetNodes(ctx context.Context, outC chan<- []Node, errC chan<- error) {
-	err := c.get(ctx, "nodes", func(c context.Context, resp *http.Response) error {
+func (c *Conn) GetNodes(ctx context.Context, host string, outC chan<- []Node, errC chan<- error) {
+	err := c.get(ctx, host, "nodes", func(c context.Context, resp *http.Response) error {
 		var nodes []Node
 		err := json.NewDecoder(resp.Body).Decode(&nodes)
 		if err != nil {
@@ -117,8 +117,8 @@ func (c *Conn) GetNodes(ctx context.Context, outC chan<- []Node, errC chan<- err
 	}
 }
 
-func (c *Conn) GetNode(ctx context.Context, node string, outC chan<- Node, errC chan<- error) {
-	err := c.get(ctx, "nodes/"+node, func(c context.Context, resp *http.Response) error {
+func (c *Conn) GetNode(ctx context.Context, host, node string, outC chan<- Node, errC chan<- error) {
+	err := c.get(ctx, host, "nodes/"+node, func(c context.Context, resp *http.Response) error {
 		var node Node
 		err := json.NewDecoder(resp.Body).Decode(&node)
 		if err != nil {
